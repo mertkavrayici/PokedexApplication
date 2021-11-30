@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pokedexapplication/model/pokemon_model.dart';
 import 'package:pokedexapplication/services/pokedex_api.dart';
+import 'package:pokedexapplication/widgets/pokelist_item.dart';
 
 class PokemonList extends StatefulWidget {
-  const PokemonList({Key? key}) : super(key: key);
+ PokemonList({Key? key}) : super(key: key);
 
   @override
   _PokemonListState createState() => _PokemonListState();
@@ -31,14 +33,9 @@ class _PokemonListState extends State<PokemonList> {
 
           List<PokemonModel> _myList=snapshot.data!;
 
-          return ListView.builder(itemCount: _myList.length,itemBuilder: (context, index){
-
-            var nowPoke =_myList[index];
-            return ListTile(
-              title: Text(nowPoke.name.toString()) ,
-            );
-
-          });
+          return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: ScreenUtil().orientation == Orientation.portrait ? 2 :3),
+          itemBuilder:(context , index) =>PokeListItem(pokemon:_myList[index]),
+          );
 
         } else if (snapshot.hasError) {
 
